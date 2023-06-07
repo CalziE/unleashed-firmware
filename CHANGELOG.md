@@ -1,20 +1,21 @@
 ### New changes
-* iButton: Add support for DS1420 (not fully tested)
-* Desktop: Option to set Tertiary favourite app (Hold right arrow on desktop) - **Desktop settings (pin code, favourite app, autolock time) will be resetted!!! Only one time after installing - due to changes in settings structure, after installing of this release desktop settings will not be reset with next release**
-* Desktop: Ability to disable favourite app (use last element in a main list `None (disable)`)
-* Desktop: Fix issue #387 (Ok button was showing invalid file error in dummy mode)
-* OFW PR: SD Driver: reinit sd card on error (by DrZlo13 | OFW PR 2493)
-* OFW PR: iButton -> Fix a typo: use right shift instead of greater than (by gsurkov | OFW PR 2506)
-* OFW: Optimize trailing slash check
+* SubGHz: **Nice ON2E (Nice One)** support (by @assasinfil | PR #335)
+* SubGHz: Remove 467.75 From freq analyzer since it has too much noise (Frequency is still can be used, just excluded from FA to avoid false detections)
+* Archive and FileBrowser: **Fixed more navigation issues** (by @Willy-JL | PR #334)
+* Plugins -> SubGHz Bruteforcer: Fix Linear Delta 3 repeats (now its more stable and we will be sure signal is received correctly)
+* Plugins: Updated TOTP (Authenticator) [(by akopachov)](https://github.com/akopachov/flipper-zero_authenticator)
+* OFW: **Fix Cyfral & Metakom emulation (My temp fix removed and proper fix from OFW applied)**
+* OFW: BadUSB: disable CDC mode, USB mode switch fix
+* OFW: Updater visual fixes
 
-#### [🎲 Download latest extra apps pack](https://github.com/xMasterX/unleashed-extra-pack/archive/refs/heads/main.zip)
+#### [🎲 Download latest extra apps pack](https://download-directory.github.io/?url=https://github.com/xMasterX/unleashed-extra-pack/tree/main/apps)
 
 [-> How to install firmware](https://github.com/DarkFlippers/unleashed-firmware/blob/dev/documentation/HowToInstall.md)
 
 [-> Download qFlipper (official link)](https://flipperzero.one/update)
 
 ## Please support development of the project
-* **Boosty** (patreon alternative): https://boosty.to/mmxdev
+* Boosty: https://boosty.to/mmxdev
 * Ko-Fi: https://ko-fi.com/masterx
 * cloudtips (only RU payments accepted): https://pay.cloudtips.ru/p/7b3e9d65
 * YooMoney (only RU payments accepted): https://yoomoney.ru/fundraise/XA49mgQLPA0.221209

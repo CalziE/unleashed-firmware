@@ -139,33 +139,34 @@ if GetOption("fullenv") or any(
 basic_dist = distenv.DistCommand("fw_dist", distenv["DIST_DEPENDS"])
 distenv.Default(basic_dist)
 
-dist_dir_name = distenv.GetProjectDirName()
-dist_dir = distenv.Dir(f"#/dist/{dist_dir_name}")
-external_apps_artifacts = firmware_env["FW_EXTAPPS"]
-external_app_list = external_apps_artifacts.application_map.values()
-
+dist_dir = distenv.GetProjetDirName()
 fap_dist = [
     distenv.Install(
-        dist_dir.Dir("debug_elf"),
-        list(app_artifact.debug for app_artifact in external_app_list),
+        distenv.Dir(f"#/dist/{dist_dir}/apps/debug_elf"),
+        list(
+            app_artifact.debug
+            for app_artifact in firmware_env["FW_EXTAPPS"].applications.values()
+        ),
     ),
     *(
         distenv.Install(
-            dist_dir.File(dist_entry[1]).dir,
-            app_artifact.compact,
+            f"#/dist/{dist_dir}/apps/{app_artifact.app.fap_category}",
+            app_artifact.compact[0],
         )
-        for app_artifact in external_app_list
-        for dist_entry in app_artifact.dist_entries
+        for app_artifact in firmware_env["FW_EXTAPPS"].applications.values()
     ),
 ]
 Depends(
     fap_dist,
-    list(app_artifact.validator for app_artifact in external_app_list),
+    list(
+        app_artifact.validator
+        for app_artifact in firmware_env["FW_EXTAPPS"].applications.values()
+    ),
 )
 Alias("fap_dist", fap_dist)
 # distenv.Default(fap_dist)
 
-distenv.Depends(firmware_env["FW_RESOURCES"], external_apps_artifacts.resources_dist)
+distenv.Depends(firmware_env["FW_RESOURCES"], firmware_env["FW_EXTAPPS"].resources_dist)
 
 # Copy all faps to device
 

@@ -6,7 +6,6 @@ enum iButtonCustomEvent {
 
     iButtonCustomEventBack,
     iButtonCustomEventTextEditResult,
-    iButtonCustomEventByteEditChanged,
     iButtonCustomEventByteEditResult,
     iButtonCustomEventWorkerEmulated,
     iButtonCustomEventWorkerRead,

@@ -5,8 +5,7 @@ enum SubmenuIndex {
     SubmenuIndexLearnNewRemote,
     SubmenuIndexLearnNewRemoteRaw,
     SubmenuIndexSavedRemotes,
-    SubmenuIndexDebug,
-    SubmenuIndexDebugSettings
+    SubmenuIndexDebug
 };
 
 static void infrared_scene_start_submenu_callback(void* context, uint32_t index) {
@@ -46,17 +45,7 @@ void infrared_scene_start_on_enter(void* context) {
             infrared_scene_start_submenu_callback,
             infrared);
         submenu_add_item(
-            submenu,
-            "Debug RX",
-            SubmenuIndexDebug,
-            infrared_scene_start_submenu_callback,
-            infrared);
-        submenu_add_item(
-            submenu,
-            "Debug Settings",
-            SubmenuIndexDebugSettings,
-            infrared_scene_start_submenu_callback,
-            infrared);
+            submenu, "Debug", SubmenuIndexDebug, infrared_scene_start_submenu_callback, infrared);
     }
 
     const uint32_t submenu_index =
@@ -96,9 +85,6 @@ bool infrared_scene_start_on_event(void* context, SceneManagerEvent event) {
             consumed = true;
         } else if(submenu_index == SubmenuIndexDebug) {
             scene_manager_next_scene(scene_manager, InfraredSceneDebug);
-            consumed = true;
-        } else if(submenu_index == SubmenuIndexDebugSettings) {
-            scene_manager_next_scene(scene_manager, InfraredSceneDebugSettings);
             consumed = true;
         }
     }

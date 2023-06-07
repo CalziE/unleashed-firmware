@@ -10,7 +10,6 @@
 #include <gui/modules/popup.h>
 #include <gui/modules/loading.h>
 #include <gui/modules/submenu.h>
-#include <gui/modules/variable_item_list.h>
 #include <gui/modules/dialog_ex.h>
 #include <gui/modules/text_input.h>
 #include <gui/modules/button_menu.h>
@@ -70,7 +69,6 @@ typedef struct {
     InfraredEditTarget edit_target : 8;
     InfraredEditMode edit_mode : 8;
     int32_t current_button_index;
-    uint32_t last_transmit_time;
 } InfraredAppState;
 
 struct Infrared {
@@ -88,7 +86,6 @@ struct Infrared {
 
     Submenu* submenu;
     TextInput* text_input;
-    VariableItemList* variable_item_list;
     DialogEx* dialog_ex;
     ButtonMenu* button_menu;
     Popup* popup;
@@ -110,7 +107,6 @@ struct Infrared {
 typedef enum {
     InfraredViewSubmenu,
     InfraredViewTextInput,
-    InfraredViewVariableItemList,
     InfraredViewDialogEx,
     InfraredViewButtonMenu,
     InfraredViewPopup,

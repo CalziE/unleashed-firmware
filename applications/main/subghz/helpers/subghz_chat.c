@@ -9,7 +9,7 @@ struct SubGhzChatWorker {
     SubGhzTxRxWorker* subghz_txrx;
 
     volatile bool worker_running;
-    volatile bool worker_stopping;
+    volatile bool worker_stoping;
     FuriMessageQueue* event_queue;
     uint32_t last_time_rx_data;
 

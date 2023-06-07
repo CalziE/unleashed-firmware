@@ -52,20 +52,20 @@ void nfc_scene_saved_menu_on_enter(void* context) {
         if(!mf_classic_is_card_read(&nfc->dev->dev_data.mf_classic_data)) {
             submenu_add_item(
                 submenu,
-                "Detect Reader",
+                "Detect reader",
                 SubmenuIndexDetectReader,
                 nfc_scene_saved_menu_submenu_callback,
                 nfc);
         }
         submenu_add_item(
             submenu,
-            "Write to Initial Card",
+            "Write To Initial Card",
             SubmenuIndexWrite,
             nfc_scene_saved_menu_submenu_callback,
             nfc);
         submenu_add_item(
             submenu,
-            "Update from Initial Card",
+            "Update From Initial Card",
             SubmenuIndexUpdate,
             nfc_scene_saved_menu_submenu_callback,
             nfc);
@@ -76,13 +76,13 @@ void nfc_scene_saved_menu_on_enter(void* context) {
        !mf_ul_is_full_capture(&nfc->dev->dev_data.mf_ul_data)) {
         submenu_add_item(
             submenu,
-            "Unlock with Reader",
+            "Unlock With Reader",
             SubmenuIndexMfUlUnlockByReader,
             nfc_scene_saved_menu_submenu_callback,
             nfc);
         submenu_add_item(
             submenu,
-            "Unlock with Password",
+            "Unlock With Password",
             SubmenuIndexMfUlUnlockByPassword,
             nfc_scene_saved_menu_submenu_callback,
             nfc);
@@ -150,8 +150,6 @@ bool nfc_scene_saved_menu_on_event(void* context, SceneManagerEvent event) {
                 dev_data->protocol == NfcDeviceProtocolMifareUl) {
                 application_info_present = nfc_supported_card_verify_and_parse(dev_data);
             }
-
-            FURI_LOG_I("nfc", "application_info_present: %d", application_info_present);
 
             if(application_info_present) {
                 scene_manager_next_scene(nfc->scene_manager, NfcSceneDeviceInfo);

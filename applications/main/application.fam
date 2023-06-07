@@ -4,7 +4,6 @@ App(
     apptype=FlipperAppType.METAPACKAGE,
     provides=[
         "gpio",
-        "onewire",
         "ibutton",
         "infrared",
         "lfrfid",
@@ -15,7 +14,7 @@ App(
         "fap_loader",
         "archive",
         "clock",
-        "subghz_remote",
+        "unirfremix",
     ],
 )
 

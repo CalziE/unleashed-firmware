@@ -1,40 +1,55 @@
 #include "../ibutton_i.h"
-
 #include <dolphin/dolphin.h>
+
+static void ibutton_scene_read_success_dialog_ex_callback(DialogExResult result, void* context) {
+    iButton* ibutton = context;
+    view_dispatcher_send_custom_event(ibutton->view_dispatcher, result);
+}
 
 void ibutton_scene_read_success_on_enter(void* context) {
     iButton* ibutton = context;
+    DialogEx* dialog_ex = ibutton->dialog_ex;
     iButtonKey* key = ibutton->key;
-    Widget* widget = ibutton->widget;
+    const uint8_t* key_data = ibutton_key_get_data_p(key);
 
-    FuriString* tmp = furi_string_alloc();
+    switch(ibutton_key_get_type(key)) {
+    case iButtonKeyDS1990:
+        ibutton_text_store_set(
+            ibutton,
+            "Dallas\n%02X %02X %02X %02X\n%02X %02X %02X %02X",
+            key_data[0],
+            key_data[1],
+            key_data[2],
+            key_data[3],
+            key_data[4],
+            key_data[5],
+            key_data[6],
+            key_data[7]);
+        break;
+    case iButtonKeyCyfral:
+        ibutton_text_store_set(ibutton, "Cyfral\n%02X %02X", key_data[0], key_data[1]);
+        break;
+    case iButtonKeyMetakom:
+        ibutton_text_store_set(
+            ibutton,
+            "Metakom\n%02X %02X %02X %02X",
+            key_data[0],
+            key_data[1],
+            key_data[2],
+            key_data[3]);
+        break;
+    }
 
-    const iButtonProtocolId protocol_id = ibutton_key_get_protocol_id(key);
+    dialog_ex_set_text(dialog_ex, ibutton->text_store, 95, 30, AlignCenter, AlignCenter);
+    dialog_ex_set_left_button_text(dialog_ex, "Retry");
+    dialog_ex_set_right_button_text(dialog_ex, "More");
+    dialog_ex_set_icon(dialog_ex, 0, 1, &I_DolphinReadingSuccess_59x63);
+    dialog_ex_set_result_callback(dialog_ex, ibutton_scene_read_success_dialog_ex_callback);
+    dialog_ex_set_context(dialog_ex, ibutton);
 
-    widget_add_button_element(
-        widget, GuiButtonTypeLeft, "Retry", ibutton_widget_callback, context);
-    widget_add_button_element(
-        widget, GuiButtonTypeRight, "More", ibutton_widget_callback, context);
+    view_dispatcher_switch_to_view(ibutton->view_dispatcher, iButtonViewDialogEx);
 
-    furi_string_printf(
-        tmp,
-        "%s[%s]",
-        ibutton_protocols_get_name(ibutton->protocols, protocol_id),
-        ibutton_protocols_get_manufacturer(ibutton->protocols, protocol_id));
-
-    widget_add_string_element(
-        widget, 0, 2, AlignLeft, AlignTop, FontPrimary, furi_string_get_cstr(tmp));
-
-    furi_string_reset(tmp);
-    ibutton_protocols_render_brief_data(ibutton->protocols, key, tmp);
-
-    widget_add_string_multiline_element(
-        widget, 0, 16, AlignLeft, AlignTop, FontSecondary, furi_string_get_cstr(tmp));
-
-    view_dispatcher_switch_to_view(ibutton->view_dispatcher, iButtonViewWidget);
     ibutton_notification_message(ibutton, iButtonNotificationMessageGreenOn);
-
-    furi_string_free(tmp);
 }
 
 bool ibutton_scene_read_success_on_event(void* context, SceneManagerEvent event) {
@@ -47,9 +62,9 @@ bool ibutton_scene_read_success_on_event(void* context, SceneManagerEvent event)
         scene_manager_next_scene(scene_manager, iButtonSceneExitConfirm);
     } else if(event.type == SceneManagerEventTypeCustom) {
         consumed = true;
-        if(event.event == GuiButtonTypeRight) {
+        if(event.event == DialogExResultRight) {
             scene_manager_next_scene(scene_manager, iButtonSceneReadKeyMenu);
-        } else if(event.event == GuiButtonTypeLeft) {
+        } else if(event.event == DialogExResultLeft) {
             scene_manager_next_scene(scene_manager, iButtonSceneRetryConfirm);
         }
     }
@@ -59,8 +74,11 @@ bool ibutton_scene_read_success_on_event(void* context, SceneManagerEvent event)
 
 void ibutton_scene_read_success_on_exit(void* context) {
     iButton* ibutton = context;
+    DialogEx* dialog_ex = ibutton->dialog_ex;
 
-    widget_reset(ibutton->widget);
+    ibutton_text_store_clear(ibutton);
+
+    dialog_ex_reset(dialog_ex);
 
     ibutton_notification_message(ibutton, iButtonNotificationMessageGreenOff);
 }

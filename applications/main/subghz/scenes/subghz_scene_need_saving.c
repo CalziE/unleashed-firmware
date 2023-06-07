@@ -16,7 +16,7 @@ void subghz_scene_need_saving_on_enter(void* context) {
     SubGhz* subghz = context;
 
     widget_add_string_multiline_element(
-        subghz->widget, 64, 13, AlignCenter, AlignCenter, FontPrimary, "Exit to Sub-GHz Menu?");
+        subghz->widget, 64, 13, AlignCenter, AlignCenter, FontPrimary, "Exit to Sub-GHz menu?");
     widget_add_string_multiline_element(
         subghz->widget,
         64,
@@ -24,7 +24,7 @@ void subghz_scene_need_saving_on_enter(void* context) {
         AlignCenter,
         AlignCenter,
         FontSecondary,
-        "All unsaved data\nwill be lost!");
+        "All unsaved will be\nlost.");
 
     widget_add_button_element(
         subghz->widget, GuiButtonTypeRight, "Stay", subghz_scene_need_saving_callback, subghz);

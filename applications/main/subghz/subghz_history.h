@@ -27,8 +27,6 @@ void subghz_history_free(SubGhzHistory* instance);
  */
 void subghz_history_reset(SubGhzHistory* instance);
 
-void subghz_history_delete_item(SubGhzHistory* instance, uint16_t item_id);
-
 /** Get frequency to history[idx]
  * 
  * @param instance  - SubGhzHistory instance
@@ -82,7 +80,7 @@ void subghz_history_get_text_item_menu(SubGhzHistory* instance, FuriString* outp
  * 
  * @param instance  - SubGhzHistory instance
  * @param output    - FuriString* output
- * @return bool - is FULL
+ * @return bool - is FUUL
  */
 bool subghz_history_get_text_space_left(SubGhzHistory* instance, FuriString* output);
 

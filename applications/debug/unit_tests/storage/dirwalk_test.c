@@ -179,7 +179,7 @@ MU_TEST_1(test_dirwalk_full, Storage* storage) {
 
     while(dir_walk_read(dir_walk, path, &fileinfo) == DirWalkOK) {
         furi_string_right(path, strlen(EXT_PATH("dirwalk/")));
-        mu_check(storage_test_paths_mark(paths, path, file_info_is_dir(&fileinfo)));
+        mu_check(storage_test_paths_mark(paths, path, (fileinfo.flags & FSF_DIRECTORY)));
     }
 
     dir_walk_free(dir_walk);
@@ -204,7 +204,7 @@ MU_TEST_1(test_dirwalk_no_recursive, Storage* storage) {
 
     while(dir_walk_read(dir_walk, path, &fileinfo) == DirWalkOK) {
         furi_string_right(path, strlen(EXT_PATH("dirwalk/")));
-        mu_check(storage_test_paths_mark(paths, path, file_info_is_dir(&fileinfo)));
+        mu_check(storage_test_paths_mark(paths, path, (fileinfo.flags & FSF_DIRECTORY)));
     }
 
     dir_walk_free(dir_walk);
@@ -219,7 +219,7 @@ static bool test_dirwalk_filter_no_folder_ext(const char* name, FileInfo* filein
     UNUSED(ctx);
 
     // only files
-    if(!file_info_is_dir(fileinfo)) {
+    if(!(fileinfo->flags & FSF_DIRECTORY)) {
         // with ".test" in name
         if(strstr(name, ".test") != NULL) {
             return true;
@@ -243,7 +243,7 @@ MU_TEST_1(test_dirwalk_filter, Storage* storage) {
 
     while(dir_walk_read(dir_walk, path, &fileinfo) == DirWalkOK) {
         furi_string_right(path, strlen(EXT_PATH("dirwalk/")));
-        mu_check(storage_test_paths_mark(paths, path, file_info_is_dir(&fileinfo)));
+        mu_check(storage_test_paths_mark(paths, path, (fileinfo.flags & FSF_DIRECTORY)));
     }
 
     dir_walk_free(dir_walk);
